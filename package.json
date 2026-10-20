@@ -37,25 +37,56 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
     "@tanstack/eslint-plugin-query": "^5.104.2",
     "@types/node": "^26.6.5",
     "@types/react": "~19.2.2",
-    "typescript": "~6.0.3"
+    "eslint": "^9.39.5",
+    "eslint-config-expo": "~57.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-testing-library": "^7.16.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.0"
   },
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "ios": "APP_VARIANT=development expo run:ios",
+    "android": "APP_VARIANT=development expo run:android",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "web:export": "expo export --platform web",
+    "prebuild:dev": "APP_VARIANT=development expo prebuild --clean",
+    "prebuild:prod": "APP_VARIANT=production expo prebuild --clean",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "doctor": "npx expo-doctor && npx expo install --check",
+    "prepare": "husky"
   },
-  "private": true,
-  "packageManager": "pnpm@12.11.2",
+  "lint-staged": {
+    "*.{ts,tsx,js,cjs,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
+        "enabled": true,
         "exclude": []
       }
     }
-  }
+  },
+  "private": true,
+  "packageManager": "pnpm@12.11.2"
 }

@@ -1,0 +1,13 @@
+# Generated or vendored: never reformat
+ios/
+android/
+dist/
+web-build/
+coverage/
+.expo/
+functions/lib/
+node_modules/
+pnpm-lock.yaml
+expo-env.d.ts
+# Written by release-please
+CHANGELOG.md
