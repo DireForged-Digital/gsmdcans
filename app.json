@@ -1,14 +1,16 @@
 {
   "expo": {
-    "name": "gsmdcans",
+    "name": "GSMDCA NS",
     "slug": "gsmdcans",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
     "scheme": "gsmdcans",
+    "orientation": "portrait",
     "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/icon.png",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"],
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +25,12 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
     "plugins": [
+      "react-native-legal",
       "expo-router",
       [
         "expo-splash-screen",
@@ -32,11 +39,12 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
-      ]
+      ],
+      ["expo-build-properties", { "ios": { "useFrameworks": "dynamic" } }],
+      "expo-notifications"
     ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+    "extra": {
+      "eas": {}
     }
   }
 }
