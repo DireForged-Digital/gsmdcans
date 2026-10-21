@@ -31,7 +31,7 @@
     },
     "plugins": [
       "react-native-legal",
-      "expo-router",
+      ["expo-router", { "origin": "https://gsmdcans-prod.web.app" }],
       [
         "expo-splash-screen",
         {

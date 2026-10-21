@@ -1,0 +1,24 @@
+appId: ${APP_ID}
+tags:
+  - smoke
+---
+# Fresh start every run.
+- clearState
+# Open the dev build and point it at Metro on this Mac.
+- openLink: gsmdcans://expo-development-client/?url=http%3A%2F%2Flocalhost%3A8081
+# iOS may ask to confirm opening the link.
+- tapOn:
+    text: 'Open'
+    optional: true
+# A fresh dev build opens its dev menu once the bundle has loaded; wait for it, then close it.
+- extendedWaitUntil:
+    visible:
+      text: 'Close'
+    timeout: 60000
+    optional: true
+- tapOn:
+    text: 'Close'
+    optional: true
+# The app itself.
+- assertVisible:
+    id: home-screen

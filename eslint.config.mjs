@@ -63,7 +63,7 @@ export default defineConfig([
       'app.config.ts',
       'src/services/firebase/**/*.ts',
       'functions/src/**/*.ts',
-      '*.config.{js,mjs,ts}',
+      '**/*.config.{js,mjs,ts}',
     ],
     rules: { 'import/no-default-export': 'off', 'no-restricted-imports': 'off' },
   },

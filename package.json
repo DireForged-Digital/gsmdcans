@@ -6,15 +6,15 @@
     "@expo/material-symbols": "^0.1.1",
     "@expo/ui": "~57.0.25",
     "@expo/vector-icons": "^15.1.1",
-    "@react-native-firebase/analytics": "^27.0.0",
-    "@react-native-firebase/app": "^27.0.0",
-    "@react-native-firebase/app-check": "^27.0.0",
-    "@react-native-firebase/auth": "^27.0.0",
-    "@react-native-firebase/crashlytics": "^27.0.0",
-    "@react-native-firebase/firestore": "^27.0.0",
-    "@react-native-firebase/functions": "^27.0.0",
-    "@react-native-firebase/messaging": "^27.0.0",
-    "@react-native-firebase/remote-config": "^27.0.0",
+    "@react-native-firebase/analytics": "~26.4.0",
+    "@react-native-firebase/app": "~26.4.0",
+    "@react-native-firebase/app-check": "~26.4.0",
+    "@react-native-firebase/auth": "~26.4.0",
+    "@react-native-firebase/crashlytics": "~26.4.0",
+    "@react-native-firebase/firestore": "~26.4.0",
+    "@react-native-firebase/functions": "~26.4.0",
+    "@react-native-firebase/messaging": "~26.4.0",
+    "@react-native-firebase/remote-config": "~26.4.0",
     "@shopify/flash-list": "2.0.2",
     "@tanstack/react-query": "^5.104.2",
     "expo": "~57.0.30",
@@ -51,6 +51,8 @@
     "@commitlint/config-conventional": "^21.2.4",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
     "@tanstack/eslint-plugin-query": "^5.104.2",
+    "@testing-library/react-native": "^14.1.0",
+    "@types/jest": "29.5.14",
     "@types/node": "^26.6.5",
     "@types/react": "~19.2.2",
     "eslint": "^9.39.5",
@@ -59,10 +61,39 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-testing-library": "^7.16.2",
     "husky": "^9.1.7",
+    "jest": "~29.7.0",
+    "jest-expo": "~57.0.6",
     "lint-staged": "^17.6.0",
     "prettier": "3.9.10",
+    "test-renderer": "~1.2.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.0"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/functions/",
+      "<rootDir>/firebase/",
+      "<rootDir>/e2e-web/",
+      "\\.emulator\\.test\\.ts$"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/app/**",
+      "!src/services/firebase/**",
+      "!src/test/**",
+      "!**/*.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 70,
+        "branches": 70
+      }
+    }
   },
   "scripts": {
     "start": "expo start",
@@ -78,7 +109,16 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "doctor": "npx expo-doctor && npx expo install --check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:rules": "firebase emulators:exec --only firestore \"pnpm --filter rules-tests test\"",
+    "test:functions": "firebase emulators:exec --only firestore,auth \"npm --prefix functions test\"",
+    "e2e": "scripts/e2e-native.sh",
+    "e2e:ios": "scripts/e2e-native.sh ios",
+    "e2e:android": "scripts/e2e-native.sh android",
+    "e2e:web": "pnpm web:export && pnpm --filter e2e-web test"
   },
   "lint-staged": {
     "*.{ts,tsx,js,cjs,mjs}": [

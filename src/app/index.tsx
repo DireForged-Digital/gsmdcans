@@ -1,8 +1,12 @@
-import { Text, View, StyleSheet } from 'react-native';
+import Head from 'expo-router/head';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Index() {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="home-screen">
+      <Head>
+        <title>GSMDCA NS</title>
+      </Head>
       <Text>Edit src/app/index.tsx to edit this screen.</Text>
     </View>
   );

@@ -1,3 +1,7 @@
+packages:
+  - '.'
+  - 'firebase/tests'
+  - 'e2e-web'
 minimumReleaseAgeExclude:
   - '@expo/cli@57.0.31'
   - '@expo/router-server@57.0.13'

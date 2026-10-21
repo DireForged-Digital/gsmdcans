@@ -5,8 +5,7 @@ import { LogBox } from 'react-native';
 // so this needs no native module.
 export const isE2E = process.env.EXPO_PUBLIC_E2E === 'true';
 
-// Call once from src/app/_layout.tsx. Hides the dev warning overlay, which otherwise
-// covers elements Maestro needs to tap.
-export function configureForE2E() {
-  if (isE2E) LogBox.ignoreAllLogs(true);
+// Defaults to the build-time flag; tests pass the value explicitly.
+export function configureForE2E(enabled = isE2E) {
+  if (enabled) LogBox.ignoreAllLogs(true);
 }

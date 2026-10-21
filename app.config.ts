@@ -1,6 +1,8 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
+import { withDangerousMod, type ConfigPlugin } from 'expo/config-plugins';
 import { execSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { copyFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
 import pkg from './package.json';
 
 // Static settings live in app.json so `npx expo install` and `eas init` can edit them.
@@ -31,6 +33,22 @@ const ifExists = (path: string | undefined) => (path && existsSync(path) ? path 
 const plist = ifExists(process.env.GOOGLE_SERVICES_PLIST ?? `${firebaseDir}/GoogleService-Info.plist`);
 const googleJson = ifExists(process.env.GOOGLE_SERVICES_JSON ?? `${firebaseDir}/google-services.json`);
 
+// RNFB 26's Crashlytics dSYM upload (Swift Package Manager builds) reads ios/GoogleService-Info.plist,
+// but Expo copies the plist into ios/<target>/. Put a copy where that script looks.
+const withCrashlyticsPlist: ConfigPlugin<string | undefined> = (cfg, plistPath) =>
+  withDangerousMod(cfg, [
+    'ios',
+    (modConfig) => {
+      if (plistPath) {
+        copyFileSync(
+          path.resolve(modConfig.modRequest.projectRoot, plistPath),
+          path.join(modConfig.modRequest.platformProjectRoot, 'GoogleService-Info.plist'),
+        );
+      }
+      return modConfig;
+    },
+  ]);
+
 // Unique, increasing native build number from git history; 1 outside a git checkout.
 const buildNumber = (() => {
   try {
@@ -48,26 +66,30 @@ const buildNumber = (() => {
   }
 })();
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
-  ...config,
-  name: appName,
-  slug: config.slug ?? 'gsmdcans',
-  version: pkg.version,
-  ios: {
-    ...config.ios,
-    bundleIdentifier: bundleId,
-    buildNumber: String(buildNumber),
-    ...(plist && { googleServicesFile: plist }),
-    entitlements: {
-      ...config.ios?.entitlements,
-      'aps-environment': isProd ? 'production' : 'development',
+export default ({ config }: ConfigContext): ExpoConfig =>
+  withCrashlyticsPlist(
+    {
+      ...config,
+      name: appName,
+      slug: config.slug ?? 'gsmdcans',
+      version: pkg.version,
+      ios: {
+        ...config.ios,
+        bundleIdentifier: bundleId,
+        buildNumber: String(buildNumber),
+        ...(plist && { googleServicesFile: plist }),
+        entitlements: {
+          ...config.ios?.entitlements,
+          'aps-environment': isProd ? 'production' : 'development',
+        },
+      },
+      android: {
+        ...config.android,
+        package: bundleId,
+        versionCode: buildNumber,
+        ...(googleJson && { googleServicesFile: googleJson }),
+      },
+      extra: { ...config.extra, appVariant: variant },
     },
-  },
-  android: {
-    ...config.android,
-    package: bundleId,
-    versionCode: buildNumber,
-    ...(googleJson && { googleServicesFile: googleJson }),
-  },
-  extra: { ...config.extra, appVariant: variant },
-});
+    plist,
+  );
