@@ -48,3 +48,6 @@ example
 
 # Jest
 coverage/
+
+# Maestro screenshots
+e2e-screenshots/

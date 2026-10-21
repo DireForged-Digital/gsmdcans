@@ -86,7 +86,8 @@
       "!src/app/**",
       "!src/services/firebase/**",
       "!src/test/**",
-      "!**/*.d.ts"
+      "!**/*.d.ts",
+      "!src/**/*.web.{ts,tsx}"
     ],
     "coverageThreshold": {
       "global": {
@@ -118,7 +119,8 @@
     "e2e": "scripts/e2e-native.sh",
     "e2e:ios": "scripts/e2e-native.sh ios",
     "e2e:android": "scripts/e2e-native.sh android",
-    "e2e:web": "pnpm web:export && pnpm --filter e2e-web test"
+    "e2e:web": "pnpm web:export && pnpm --filter e2e-web test",
+    "e2e:a11y": "scripts/e2e-native.sh 'ios android' 'large-text dark'"
   },
   "lint-staged": {
     "*.{ts,tsx,js,cjs,mjs}": [

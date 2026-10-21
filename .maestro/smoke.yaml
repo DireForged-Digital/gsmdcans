@@ -6,19 +6,49 @@ tags:
 - clearState
 # Open the dev build and point it at Metro on this Mac.
 - openLink: gsmdcans://expo-development-client/?url=http%3A%2F%2Flocalhost%3A8081
-# iOS may ask to confirm opening the link.
-- tapOn:
-    text: 'Open'
-    optional: true
-# A fresh dev build opens its dev menu once the bundle has loaded; wait for it, then close it.
-- extendedWaitUntil:
-    visible:
-      text: 'Close'
-    timeout: 60000
-    optional: true
-- tapOn:
-    text: 'Close'
-    optional: true
+
+# iOS: may ask to confirm the link, then shows the dev menu with a Close button.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: 'Open'
+          optional: true
+      - extendedWaitUntil:
+          visible: 'Close'
+          timeout: 60000
+          optional: true
+      - tapOn:
+          text: 'Close'
+          optional: true
+
+# Android: shows an intro (Continue), then the dev menu as a bottom sheet
+# with no Close button. Back dismisses it, but only press Back while the
+# sheet is showing, or it would leave the app.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible: 'Continue'
+          timeout: 60000
+          optional: true
+      - tapOn:
+          text: 'Continue'
+          optional: true
+      - extendedWaitUntil:
+          visible: 'Go home'
+          timeout: 10000
+          optional: true
+      - runFlow:
+          when:
+            visible: 'Go home'
+          commands:
+            - back
+
 # The app itself.
 - assertVisible:
     id: home-screen
+# Saved for review, e.g. e2e-screenshots/ios-large-text-home.png
+- takeScreenshot: ${SHOT_PREFIX}-home

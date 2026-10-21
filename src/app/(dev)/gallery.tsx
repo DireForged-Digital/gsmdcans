@@ -1,3 +1,4 @@
+import { ThemedText } from '@/components/ui/ThemedText';
 import { Redirect, Stack } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
@@ -14,12 +15,14 @@ export default function Gallery() {
     <>
       <Stack.Screen options={{ title: 'Component gallery' }} />
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.content}>
-        {/* One <Section> per component, e.g.:
-            <Section title="EventCard">
-              <EventCard event={fixtures.event} />
-              <EventCard event={fixtures.eventLongTitle} />
-              <EventCard event={fixtures.eventCancelled} />
-            </Section> */}
+        <Section title="ThemedText">
+          <ThemedText variant="title">Title text</ThemedText>
+          <ThemedText>
+            Body text that wraps across several lines to show how longer paragraphs behave when the system
+            text size is turned up.
+          </ThemedText>
+          <ThemedText variant="secondary">Secondary text</ThemedText>
+        </Section>
       </ScrollView>
     </>
   );

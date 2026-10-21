@@ -1,5 +1,6 @@
+import { ThemedText } from '@/components/ui/ThemedText';
 import Head from 'expo-router/head';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function Index() {
   return (
@@ -7,7 +8,7 @@ export default function Index() {
       <Head>
         <title>GSMDCA NS</title>
       </Head>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
+      <ThemedText>Edit src/app/index.tsx to edit this screen.</ThemedText>
     </View>
   );
 }
