@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456329436920",
+    "project_id": "gsmdcans-dev",
+    "storage_bucket": "gsmdcans-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456329436920:android:4aeb2c269bb7e73f05e50d",
+        "android_client_info": {
+          "package_name": "digital.direforged.gsmdcans.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkF9Xjm8e9qJCpN87Bu0e3DiEs5PuhGf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

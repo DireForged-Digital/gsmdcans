@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "gsmdcans-dev",
+    "dev": "gsmdcans-dev",
+    "prod": "gsmdcans-prod"
+  },
+  "targets": {},
+  "etags": {}
+}

@@ -9,4 +9,6 @@ overrides:
   '@react-native/metro-config': '0.86.3'
 nodeLinker: hoisted
 allowBuilds:
+  '@firebase/util': false
+  protobufjs: false
   unrs-resolver: false

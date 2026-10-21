@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 // Development-only component gallery: every src/components/ui primitive in its
 // awkward states (loading, empty, error, very long text, disabled), so you can check
 // them without clicking through the app. Check dark mode and the largest text size here.
-// Not shipped: production and preview builds redirect away.
+// Not shipped: production builds redirect away.
 // Swap for Storybook once src/components/ui has 10+ components with several variants.
 
 export default function Gallery() {

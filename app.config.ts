@@ -6,7 +6,7 @@ import pkg from './package.json';
 // Static settings live in app.json so `npx expo install` and `eas init` can edit them.
 // This file only adds what differs per build variant.
 
-type Variant = 'development' | 'preview' | 'production';
+type Variant = 'development' | 'production';
 const variant = (process.env.APP_VARIANT ?? 'development') as Variant;
 const isProd = variant === 'production';
 
@@ -15,13 +15,11 @@ const baseId = 'digital.direforged.gsmdcans';
 
 const bundleId = {
   development: `${baseId}.dev`,
-  preview: `${baseId}.preview`,
   production: baseId,
 }[variant];
 
 const appName = {
   development: 'GSMDCA NS (Dev)',
-  preview: 'GSMDCA NS (Preview)',
   production: 'GSMDCA NS',
 }[variant];
 

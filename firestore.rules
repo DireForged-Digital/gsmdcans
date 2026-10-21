@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Closed by default: nothing can be read or written until a feature adds
+    // a rule for its own collection (public read / admin write, per the guide).
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
