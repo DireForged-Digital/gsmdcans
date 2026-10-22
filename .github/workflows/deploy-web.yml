@@ -1,0 +1,60 @@
+name: Deploy web
+
+# PR       -> temporary preview channel on the dev project (URL posted on the PR)
+# main     -> dev project, live
+# release  -> prod project, live, built with the prod Firebase web config
+on:
+  pull_request:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+concurrency:
+  group: deploy-web-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    # PRs from forks and from Dependabot can't read the deploy secrets.
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.actor != 'dependabot[bot]')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # preview URL comment
+      checks: write
+    env:
+      IS_PROD: ${{ github.event_name == 'release' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+
+      # .env holds the dev config; a variable set in the environment takes precedence.
+      - name: Use the prod Firebase web config
+        if: env.IS_PROD == 'true'
+        env:
+          CONFIG: ${{ vars.FIREBASE_WEB_CONFIG_PROD }}
+        run: echo "EXPO_PUBLIC_FIREBASE_WEB_CONFIG=$CONFIG" >> "$GITHUB_ENV"
+
+      - run: pnpm web:export
+
+      # Guard against shipping the wrong Firebase project.
+      - name: Check the build uses the right Firebase project
+        run: |
+          if [ "$IS_PROD" = "true" ]; then want=gsmdcans-prod; avoid=gsmdcans-dev; else want=gsmdcans-dev; avoid=gsmdcans-prod; fi
+          grep -rq "${want}.firebaseapp.com" dist || { echo "::error::Build is missing the ${want} config"; exit 1; }
+          if grep -rq "${avoid}.firebaseapp.com" dist; then echo "::error::Build contains the ${avoid} config"; exit 1; fi
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ env.IS_PROD == 'true' && secrets.FIREBASE_SERVICE_ACCOUNT_GSMDCANS_PROD || secrets.FIREBASE_SERVICE_ACCOUNT_GSMDCANS_DEV }}
+          projectId: ${{ env.IS_PROD == 'true' && 'gsmdcans-prod' || 'gsmdcans-dev' }}
+          # Empty on PRs, which makes the action create a preview channel.
+          channelId: ${{ github.event_name != 'pull_request' && 'live' || '' }}
