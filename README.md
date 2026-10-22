@@ -70,9 +70,8 @@ See [docs/testing/accessibility.md](docs/testing/accessibility.md).
 
 ## Contributing
 
-Commits and PR titles follow [Conventional Commits](https://www.conventionalcommits.org).
-Please read the [Code of Conduct](CODE_OF_CONDUCT.md) and report security issues as described
-in [SECURITY.md](SECURITY.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md). Please read the [Code of Conduct](CODE_OF_CONDUCT.md)
+and report security issues as described in [SECURITY.md](SECURITY.md).
 
 ## License
 
