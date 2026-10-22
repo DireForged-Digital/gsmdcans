@@ -1,0 +1,5 @@
+# Tool versions for this project. Keep in sync with "packageManager" in package.json
+# and with .node-version (CI and other tools read those).
+[tools]
+node = "24"
+pnpm = "12.11.2"

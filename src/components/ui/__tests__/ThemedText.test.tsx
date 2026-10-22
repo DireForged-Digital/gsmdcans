@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ui/ThemedText';
 describe('ThemedText', () => {
   it('announces titles as headings', async () => {
     await render(<ThemedText variant="title">Events</ThemedText>);
-    expect(screen.getByRole('header', { name: 'Events' })).toBeOnTheScreen();
+    expect(screen.getByRole('heading', { name: 'Events' })).toBeOnTheScreen();
   });
 
   it('leaves font scaling on so text follows the system text size', async () => {

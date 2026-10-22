@@ -3,7 +3,7 @@
     "name": "GSMDCA NS",
     "slug": "gsmdcans",
     "scheme": "gsmdcans",
-    "orientation": "portrait",
+    "orientation": "default",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/icon.png",
     "ios": {
@@ -19,7 +19,7 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": true
     },
     "web": {
       "output": "static",
@@ -44,9 +44,6 @@
       "expo-notifications",
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
-      "@react-native-firebase/messaging",
-      "@react-native-firebase/analytics",
-      "@react-native-firebase/crashlytics",
       "@react-native-firebase/app-check"
     ],
     "extra": {

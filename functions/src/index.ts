@@ -24,7 +24,9 @@ import { setGlobalOptions } from 'firebase-functions';
 // functions should each use functions.runWith({ maxInstances: 10 }) instead.
 // In the v1 API, each function can only serve one request per container, so
 // this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
+
+// us-central1 sits next to the nam5 Firestore and is where Firestore triggers for nam5 must run.
+setGlobalOptions({ region: 'us-central1', maxInstances: 10 });
 
 // export const helloWorld = onRequest((request, response) => {
 //   logger.info("Hello logs!", {structuredData: true});

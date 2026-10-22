@@ -22,6 +22,8 @@ export default defineConfig([
   expoConfig,
   ...tseslintConfigs.strictTypeChecked,
   ...tseslintConfigs.stylisticTypeChecked,
+  // eslint-config-expo already loads react-hooks with just the two classic rules; this adds
+  // the full v7 recommended set, including the React Compiler rules (reactCompiler is on in app.json).
   reactHooks.configs.flat.recommended,
   ...tanstackQuery.configs['flat/recommended'],
   eslintComments.recommended,

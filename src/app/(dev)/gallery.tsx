@@ -29,9 +29,9 @@ export default function Gallery() {
 }
 
 export function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  // Swap accessibilityLabel for a ThemedText heading once src/components/ui has one.
   return (
-    <View style={styles.section} accessibilityLabel={title}>
+    <View style={styles.section}>
+      <ThemedText variant="title">{title}</ThemedText>
       {children}
     </View>
   );

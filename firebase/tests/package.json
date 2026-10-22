@@ -1,16 +1,10 @@
 {
   "name": "rules-tests",
-  "version": "1.0.0",
-  "description": "",
   "private": true,
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "vitest run"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
   "devDependencies": {
     "@firebase/rules-unit-testing": "^6.0.0",
     "firebase": "^13.0.0",

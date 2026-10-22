@@ -14,7 +14,7 @@ export function ThemedText({ variant = 'body', style, ...rest }: ThemedTextProps
   const color = useTextColor(variant === 'secondary' ? 'secondary' : 'primary');
   return (
     <Text
-      accessibilityRole={variant === 'title' ? 'header' : undefined}
+      role={variant === 'title' ? 'heading' : undefined}
       {...rest}
       style={[styles[variant], { color }, style]}
     />

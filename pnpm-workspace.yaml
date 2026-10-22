@@ -2,17 +2,19 @@ packages:
   - '.'
   - 'firebase/tests'
   - 'e2e-web'
+# pnpm holds back package versions published very recently (minimumReleaseAge) to guard
+# against compromised releases. These exact versions were newer than that when installed.
+# Safe to delete an entry once that version is a few days old; review on each Expo upgrade.
 minimumReleaseAgeExclude:
-  - '@expo/cli@57.0.31'
-  - '@expo/router-server@57.0.13'
-  - '@expo/ui@57.0.25'
-  - babel-preset-expo@57.0.16
-  - expo-router@57.0.28
-  - expo@57.0.30
+  - expo-network@57.0.3
+
+# Keep one @react-native/metro-config, matching react-native 0.86.3. Update with each RN
+# upgrade; remove once `pnpm why @react-native/metro-config` shows only that version without it.
 overrides:
   '@react-native/metro-config': '0.86.3'
 nodeLinker: hoisted
 allowBuilds:
   '@firebase/util': false
   protobufjs: false
+  re2: false
   unrs-resolver: false
