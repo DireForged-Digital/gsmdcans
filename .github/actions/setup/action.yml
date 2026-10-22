@@ -1,0 +1,26 @@
+name: Set up project
+description: Install pnpm, Node and dependencies, and generate Expo Router types.
+inputs:
+  functions:
+    description: Also install the Cloud Functions dependencies (separate npm project).
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    # Reads the pnpm version from "packageManager" in package.json.
+    - uses: pnpm/action-setup@v6
+    - uses: actions/setup-node@v7
+      with:
+        node-version-file: .node-version
+        cache: pnpm
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+    - name: Install Cloud Functions dependencies
+      if: inputs.functions == 'true'
+      shell: bash
+      run: npm ci --prefix functions
+    # Typed routes live in git-ignored files that the dev server normally writes.
+    - name: Generate Expo Router types
+      shell: bash
+      run: pnpm exec expo customize tsconfig.json
