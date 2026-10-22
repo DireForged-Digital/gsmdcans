@@ -1,0 +1,29 @@
+name: Architecture decision proposal
+description: Propose a significant technical decision to be recorded as an ADR.
+labels: [adr]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What situation or problem makes a decision necessary now?
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options considered
+      description: List each option with its main pros and cons.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed decision
+    validations:
+      required: true
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequences
+      description: What becomes easier or harder? What would make us revisit this?
