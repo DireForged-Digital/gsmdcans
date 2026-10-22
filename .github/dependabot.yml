@@ -1,0 +1,65 @@
+version: 2
+
+updates:
+  # App and pnpm workspace packages.
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /firebase/tests
+      - /e2e-web
+    schedule:
+      interval: weekly
+    # Wait 3 days after a release before proposing it (lets bad releases get pulled).
+    cooldown:
+      default-days: 3
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      # The Expo SDK decides these versions. Upgrade them together with
+      # `npx expo install --fix` in a dedicated chore(sdk) PR, never one by one.
+      - dependency-name: 'expo'
+      - dependency-name: 'expo-*'
+      - dependency-name: '@expo/*'
+      - dependency-name: '*-expo'
+      - dependency-name: 'react'
+      - dependency-name: 'react-dom'
+      - dependency-name: '@types/react'
+      - dependency-name: 'react-native'
+      - dependency-name: 'react-native-*'
+      - dependency-name: '@react-native/*'
+      - dependency-name: '@shopify/flash-list'
+      # Tied to the SDK's Jest and React versions.
+      - dependency-name: 'jest'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/jest'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'test-renderer'
+      # RNFB 27 needs Kotlin 2.4; move with the SDK 58 upgrade.
+      - dependency-name: '@react-native-firebase/*'
+        update-types: ['version-update:semver-major']
+      # Matches the Node 24 runtime.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+
+  # Cloud Functions (separate npm project).
+  - package-ecosystem: npm
+    directory: /functions
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 3
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  # Versions of the actions used in workflows and the shared setup action.
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/setup
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
